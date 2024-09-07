@@ -1,0 +1,117 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-3">
+  <h1 class="col-6 offset-3">Signup on WanderLust</h1>
+  <div class="col-6 offset-3">
+    <form
+      id="signupForm"
+      action="/signup"
+      method="POST"
+      class="needs-validation"
+      novalidate
+    >
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          name="username"
+          id="username"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          name="email"
+          id="email"
+          type="email"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter a valid email.</div>
+      </div>
+
+
+
+      <div class="mb-3 position-relative">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <input
+            name="password"
+            id="password"
+            type="password"
+            class="form-control"
+            required
+          />
+          <span
+            class="input-group-text"
+            id="togglePassword"
+            style="cursor: pointer"
+            > <i id="toggleText">show</i>
+          </span>
+        </div>
+        <div class="invalid-feedback" id="passwordFeedback"></div>
+      </div>
+      <button class="btn btn-success">SignUp</button>
+    </form>
+  </div>
+</div>
+
+<script>
+ 
+ //TOGGLE 
+ const togglePassword = document.querySelector('#togglePassword');
+  const passwordInput = document.querySelector('#password');
+  const toggleText = document.querySelector('#toggleText');
+
+  togglePassword.addEventListener('click', function () {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+
+      // Toggle the text between 'Show' and 'Hide'
+      toggleText.textContent = type === 'text' ? 'Hide' : 'Show';
+  });
+
+  // Password validation logic (same as before)
+  document
+    .getElementById("signupForm")
+    .addEventListener("submit", function (event) {
+      const feedback = document.getElementById("passwordFeedback");
+      const password = passwordInput.value;
+
+      const validationMessage = validatePassword(password);
+      if (validationMessage !== "Password is valid.") {
+        event.preventDefault();
+        passwordInput.classList.add("is-invalid");
+        feedback.textContent = validationMessage;
+      } else {
+        passwordInput.classList.remove("is-invalid");
+        passwordInput.classList.add("is-valid");
+      }
+    });
+
+  function validatePassword(password) {
+    const minLength = 8;
+
+    if (password.length < minLength) {
+      return "Password must be at least 8 characters long.";
+    }
+    if (!/[a-z]/.test(password)) {
+      return "Password must contain at least one lowercase letter.";
+    }
+    if (!/[A-Z]/.test(password)) {
+      return "Password must contain at least one uppercase letter.";
+    }
+    if (!/[0-9]/.test(password)) {
+      return "Password must contain at least one number.";
+    }
+    if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) {
+      return "Password must contain at least one special character.";
+    }
+    return "Password is valid.";
+  }
+</script>
+

@@ -1,0 +1,24 @@
+
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-3">
+    <h1 class="col-6 offset-3 mb-3">Search Results</h1>
+    <div class="col-6 offset-3 "> 
+        <% if (listings.length > 0) { %>
+            <ul class="list-group">
+                <% listings.forEach(listing => { %>
+                    <li class="list-group-item mb-3 p-3">
+                        <h3><%= listing.title %></h3>
+                        <p><%= listing.description %></p>
+                        <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="img-fluid"/>
+                        <p><strong>Location:</strong> <%= listing.location %>, <%= listing.country %></p>
+                        <p><strong>Price:</strong> $<%= listing.price %></p>
+                        <a href="/listings/<%= listing._id %>" class="btn btn-primary">View Details</a>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No listings found with the provided title.</p>
+        <% } %>
+    </div>
+</div>
